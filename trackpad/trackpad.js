@@ -26,17 +26,17 @@ app.addEventListener('keydown', e => {
 	let blockStyles = window.getComputedStyle(block);
 	if (e.key === 'ArrowLeft') {
 		let startLeft = parseInt(blockStyles.left);
-		block.style.left = `${startLeft - 100}px`
+		block.style.left = `${startLeft - 75}px`
 
 	} else if (e.key === 'ArrowRight') {
 		let startLeft = parseInt(blockStyles.left);
-		block.style.left = `${startLeft + 100}px`
+		block.style.left = `${startLeft + 75}px`
 	} else if (e.key === 'ArrowUp') {
 		let startTop = parseInt(blockStyles.top);
-		block.style.top = `${startTop - 100}px`
+		block.style.top = `${startTop - 75}px`
 	} else if (e.key === 'ArrowDown') {
 		let startTop = parseInt(blockStyles.top);
-		block.style.top = `${startTop + 100}px`
+		block.style.top = `${startTop + 75}px`
 	}
 });
 block.addEventListener('keydown', e => {});
