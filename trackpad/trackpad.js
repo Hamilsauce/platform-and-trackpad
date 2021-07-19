@@ -3,6 +3,7 @@ const kb = document.querySelector('.keyboard')
 const app = document.querySelector('.app')
 const block = document.querySelector('#block')
 const stage = document.querySelector('.stage')
+const trackpad = document.querySelector('.trackpad')
 const tester = document.querySelector('.test-input')
 const gameEl = document.querySelector('.game')
 
@@ -10,9 +11,26 @@ var arrowCodes = { 37: 'left', 38: 'up', 39: 'right' };
 var codes = new Map(Object.entries({ 'left': 37, 'up': 38, 'right': 39 }))
 
 
+trackpad.addEventListener('touchmove', e => {
+	//simulate key ptess
+	const touch = e.touches[0];
+	const evt = new CustomEvent('trackMove', { bubbles: true, detail: { x: touch.clientX, y: touch.clientY } })
+	trackpad.dispatchEvent(evt);
+});
+
+trackpad.addEventListener('dblclick', e => {
+	let blockStyles = window.getComputedStyle(block);
+	let blockHeight = parseInt(blockStyles.height);
+	let blockWidth = parseInt(blockStyles.width);
+
+	const newHeight = (blockHeight + 40) > 200 ? 50 : blockHeight += 40;
+	const newWidth = (blockWidth + 40) > 200 ? 50 : blockWidth += 40;
+	block.style.height = `${newHeight}px`
+	block.style.width = `${newWidth}px`
+});
+
 keys.forEach(k => {
 	k.addEventListener('click', e => {
-
 		//simulate key ptess
 		const eName = `Arrow${k.id[0].toUpperCase()}${k.id.slice(1)}`
 		const evt = new KeyboardEvent('keydown', { bubbles: true, key: eName, keyCode: codes.get(k.id) })
@@ -22,6 +40,35 @@ keys.forEach(k => {
 
 document.addEventListener('keydown', e => {});
 
+//app touch listener
+app.addEventListener('trackMove', e => {
+	let blockStyles = window.getComputedStyle(block);
+	let stageStyles = window.getComputedStyle(stage);
+	const { x, y } = e.detail
+
+	let stageHeight = parseInt(stageStyles.height);
+	block.style.left = `${x}px`
+	block.style.top = `${y - stageHeight}px`
+
+	/*
+		if (e.key === 'ArrowLeft') {
+			let startLeft = parseInt(blockStyles.left);
+			block.style.left = `${startLeft - 75}px`
+
+		} else if (e.key === 'ArrowRight') {
+			let startLeft = parseInt(blockStyles.left);
+			block.style.left = `${startLeft + 75}px`
+		} else if (e.key === 'ArrowUp') {
+			let startTop = parseInt(blockStyles.top);
+			block.style.top = `${startTop - 75}px`
+		} else if (e.key === 'ArrowDown') {
+			let startTop = parseInt(blockStyles.top);
+			block.style.top = `${startTop + 75}px`
+		}
+	*/
+});
+
+//app key listener
 app.addEventListener('keydown', e => {
 	let blockStyles = window.getComputedStyle(block);
 	if (e.key === 'ArrowLeft') {
@@ -39,10 +86,11 @@ app.addEventListener('keydown', e => {
 		block.style.top = `${startTop + 75}px`
 	}
 });
+
 block.addEventListener('keydown', e => {});
 stage.addEventListener('keydown', e => {});
 
-// other
+// TODO 
 
 var arrowCodes = { 37: 'left', 38: 'up', 39: 'right' };
 

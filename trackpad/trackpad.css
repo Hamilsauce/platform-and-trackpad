@@ -10,7 +10,7 @@
 
 .stage {
 	position: relative;
-	height: 400px;
+	height: 300px;
 	width: 100%;
 	padding: 10px;
 	background: #D3D6B8;
@@ -27,6 +27,14 @@
 	background: #5A899C;
 	box-shadow: 0 0 5px 1px #3A3B42;
 	transition: 0.5s ease-out;
+}
+
+.trackpad {
+	width: 100%;
+	height: 250px;
+	margin: 5px auto;
+	background: #7A989D;
+
 }
 
 
