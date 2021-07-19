@@ -14,6 +14,6 @@ const divs2 = divs.map((div, i) => {
 
 let domMap = new Map(divs2);
 
-console.log(domMap.get(divs[2]));
+console.log(domMap.get(divs[2]) == domMap.get(divs[1]));
 
 
