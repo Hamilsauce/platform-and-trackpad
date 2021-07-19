@@ -8,8 +8,6 @@ const gameEl = document.querySelector('.game')
 
 var arrowCodes = { 37: 'left', 38: 'up', 39: 'right' };
 var codes = new Map(Object.entries({ 'left': 37, 'up': 38, 'right': 39 }))
-
-
 keys.forEach(k => {
 	k.addEventListener('click', e => {
 

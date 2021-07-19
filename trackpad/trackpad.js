@@ -12,7 +12,6 @@ var codes = new Map(Object.entries({ 'left': 37, 'up': 38, 'right': 39 }))
 
 
 trackpad.addEventListener('touchmove', e => {
-	//simulate key ptess
 	let stageStyles = window.getComputedStyle(stage);
 	let blockStyles = window.getComputedStyle(block);
 	let stageHeight = parseInt(stageStyles.height);
@@ -52,25 +51,43 @@ keys.forEach(k => {
 })
 
 document.addEventListener('keydown', e => {});
-
+console.log('block y', parseInt(window.getComputedStyle(block).top));
 //app touch listener
 app.addEventListener('trackMove', e => {
 	let blockStyles = window.getComputedStyle(block);
 	let stageStyles = window.getComputedStyle(stage);
 	const { x, y } = e.detail
-	let blockHeight = parseInt(blockStyles.height);
 
-	// let stageHeight = parseInt(stageStyles.height);
-	let stageHeight = 360
+	let blockHeight = parseInt(blockStyles.height);
+	let blockCurrentX = parseInt(blockStyles.left);
+	let blockCurrentY = parseInt(blockStyles.top);
+	
+	let stageHeight = parseInt(stageStyles.height);
 	let stageWidth = parseInt(stageStyles.width);
 	stage.style.width = '360px';
-	if ((y - stageHeight) + blockHeight >= stageHeight && (x + blockHeight >= stageWidth)) {
-		block.style.left = `${x}px`
-		console.log('limit');
+
+	if (blockCurrentX <= 0) {
+		block.style.left = `1px`
+		console.log('left limit');
+		// block.style.top = `1px`
+		return
+
+	}
+	
+	else if (blockCurrentY <= 0) {
+		block.style.top = `1px`
+		console.log('top limit');
 		return
 	}
+
+	if ((y - stageHeight) + blockHeight >= stageHeight) {
+		block.style.left = `${x}px`
+		console.log('limit1');
+		return
+	}
+
 	if (x + blockHeight >= stageWidth && !((y - stageHeight) + blockHeight >= stageHeight)) {
-		console.log('limit');
+		console.log('limit2');
 		block.style.top = `${y - stageHeight}px`
 		return
 	} else {
