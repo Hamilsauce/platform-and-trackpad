@@ -13,6 +13,16 @@ var codes = new Map(Object.entries({ 'left': 37, 'up': 38, 'right': 39 }))
 
 trackpad.addEventListener('touchmove', e => {
 	//simulate key ptess
+	let stageStyles = window.getComputedStyle(stage);
+	let blockStyles = window.getComputedStyle(block);
+	let stageHeight = parseInt(stageStyles.height);
+	let blockHeight = parseInt(blockStyles.height);
+	// if (touch.pageY + blockHeight  >= stageHeight) {
+	// 	console.log('limit');
+	// 	return
+	// }
+
+
 	const touch = e.touches[0];
 	const evt = new CustomEvent('trackMove', { bubbles: true, detail: { x: touch.clientX, y: touch.clientY } })
 	trackpad.dispatchEvent(evt);
@@ -22,9 +32,12 @@ trackpad.addEventListener('dblclick', e => {
 	let blockStyles = window.getComputedStyle(block);
 	let blockHeight = parseInt(blockStyles.height);
 	let blockWidth = parseInt(blockStyles.width);
+	let stageStyles = window.getComputedStyle(stage);
+
 
 	const newHeight = (blockHeight + 40) > 200 ? 50 : blockHeight += 40;
 	const newWidth = (blockWidth + 40) > 200 ? 50 : blockWidth += 40;
+
 	block.style.height = `${newHeight}px`
 	block.style.width = `${newWidth}px`
 });
@@ -45,10 +58,29 @@ app.addEventListener('trackMove', e => {
 	let blockStyles = window.getComputedStyle(block);
 	let stageStyles = window.getComputedStyle(stage);
 	const { x, y } = e.detail
+	let blockHeight = parseInt(blockStyles.height);
 
-	let stageHeight = parseInt(stageStyles.height);
-	block.style.left = `${x}px`
-	block.style.top = `${y - stageHeight}px`
+	// let stageHeight = parseInt(stageStyles.height);
+	let stageHeight = 360
+	let stageWidth = parseInt(stageStyles.width);
+	stage.style.width = '360px';
+	if ((y - stageHeight) + blockHeight >= stageHeight && (x + blockHeight >= stageWidth)) {
+		block.style.left = `${x}px`
+		console.log('limit');
+		return
+	}
+	if (x + blockHeight >= stageWidth && !((y - stageHeight) + blockHeight >= stageHeight)) {
+		console.log('limit');
+		block.style.top = `${y - stageHeight}px`
+		return
+	} else {
+		block.style.left = `${x}px`
+		block.style.top = `${y - stageHeight}px`
+
+
+	}
+
+
 
 	/*
 		if (e.key === 'ArrowLeft') {
