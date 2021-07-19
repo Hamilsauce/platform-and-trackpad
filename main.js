@@ -1,152 +1,7 @@
-const simpleLevelPlan = [
-  "                      ",
-  "                      ",
-  "  x              = x  ",
-  "  x         o o    x  ",
-  "  x @      xxxxx   x  ",
-  "  xxxxx            x  ",
-  "      x!!!!!!!!!!!!x  ",
-  "      xxxxxxxxxxxxxx  ",
-  "                      "
-];
-
-const GAME_LEVELS = [
-  ["                                                                                ",
-   "                                                                                ",
-   "                                                                                ",
-   "                                                                                ",
-   "                                                                                ",
-   "                                                                                ",
-   "                                                                  xxx           ",
-   "                                                   xx      xx    xx!xx          ",
-   "                                    o o      xx                  x!!!x          ",
-   "                                                                 xx!xx          ",
-   "                                   xxxxx                          xvx           ",
-   "                                                                            xx  ",
-   "  xx                                      o o                                x  ",
-   "  x                     o                                                    x  ",
-   "  x                                      xxxxx                             o x  ",
-   "  x          xxxx       o                                                    x  ",
-   "  x  @       x  x                                                xxxxx       x  ",
-   "  xxxxxxxxxxxx  xxxxxxxxxxxxxxx   xxxxxxxxxxxxxxxxxxxx     xxxxxxx   xxxxxxxxx  ",
-   "                              x   x                  x     x                    ",
-   "                              x!!!x                  x!!!!!x                    ",
-   "                              x!!!x                  x!!!!!x                    ",
-   "                              xxxxx                  xxxxxxx                    ",
-   "                                                                                ",
-   "                                                                                "],
-  ["                                      x!!x                        xxxxxxx                                    x!x  ",
-   "                                      x!!x                     xxxx     xxxx                                 x!x  ",
-   "                                      x!!xxxxxxxxxx           xx           xx                                x!x  ",
-   "                                      xx!!!!!!!!!!xx         xx             xx                               x!x  ",
-   "                                       xxxxxxxxxx!!x         x                                    o   o   o  x!x  ",
-   "                                                xx!x         x     o   o                                    xx!x  ",
-   "                                                 x!x         x                                xxxxxxxxxxxxxxx!!x  ",
-   "                                                 xvx         x     x   x                        !!!!!!!!!!!!!!xx  ",
-   "                                                             xx  |   |   |  xx            xxxxxxxxxxxxxxxxxxxxx   ",
-   "                                                              xx!!!!!!!!!!!xx            v                        ",
-   "                                                               xxxx!!!!!xxxx                                      ",
-   "                                               x     x            xxxxxxx        xxx         xxx                  ",
-   "                                               x     x                           x x         x x                  ",
-   "                                               x     x                             x         x                    ",
-   "                                               x     x                             xx        x                    ",
-   "                                               xx    x                             x         x                    ",
-   "                                               x     x      o  o     x   x         x         x                    ",
-   "               xxxxxxx        xxx   xxx        x     x               x   x         x         x                    ",
-   "              xx     xx         x   x          x     x     xxxxxx    x   x   xxxxxxxxx       x                    ",
-   "             xx       xx        x o x          x    xx               x   x   x               x                    ",
-   "     @       x         x        x   x          x     x               x   x   x               x                    ",
-   "    xxx      x         x        x   x          x     x               x   xxxxx   xxxxxx      x                    ",
-   "    x x      x         x       xx o xx         x     x               x     o     x x         x                    ",
-   "!!!!x x!!!!!!x         x!!!!!!xx     xx!!!!!!!!xx    x!!!!!!!!!!     x     =     x x         x                    ",
-   "!!!!x x!!!!!!x         x!!!!!xx       xxxxxxxxxx     x!!!!!!!xx!     xxxxxxxxxxxxx xx  o o  xx                    ",
-   "!!!!x x!!!!!!x         x!!!!!x    o                 xx!!!!!!xx !                    xx     xx                     ",
-   "!!!!x x!!!!!!x         x!!!!!x                     xx!!!!!!xx  !                     xxxxxxx                      ",
-   "!!!!x x!!!!!!x         x!!!!!xx       xxxxxxxxxxxxxx!!!!!!xx   !                                                  ",
-   "!!!!x x!!!!!!x         x!!!!!!xxxxxxxxx!!!!!!!!!!!!!!!!!!xx    !                                                  ",
-   "!!!!x x!!!!!!x         x!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!xx     !                                                  "],
-  ["                                                                                                              ",
-   "                                                                                                              ",
-   "                                                                                                              ",
-   "                                                                                                              ",
-   "                                                                                                              ",
-   "                                        o                                                                     ",
-   "                                                                                                              ",
-   "                                        x                                                                     ",
-   "                                        x                                                                     ",
-   "                                        x                                                                     ",
-   "                                        x                                                                     ",
-   "                                       xxx                                                                    ",
-   "                                       x x                 !!!        !!!  xxx                                ",
-   "                                       x x                 !x!        !x!                                     ",
-   "                                     xxx xxx                x          x                                      ",
-   "                                      x   x                 x   oooo   x       xxx                            ",
-   "                                      x   x                 x          x      x!!!x                           ",
-   "                                      x   x                 xxxxxxxxxxxx       xxx                            ",
-   "                                     xx   xx      x   x      x                                                ",
-   "                                      x   xxxxxxxxx   xxxxxxxx              x x                               ",
-   "                                      x   x           x                    x!!!x                              ",
-   "                                      x   x           x                     xxx                               ",
-   "                                     xx   xx          x                                                       ",
-   "                                      x   x= = = =    x            xxx                                        ",
-   "                                      x   x           x           x!!!x                                       ",
-   "                                      x   x    = = = =x     o      xxx       xxx                              ",
-   "                                     xx   xx          x                     x!!!x                             ",
-   "                              o   o   x   x           x     x                xxv        xxx                   ",
-   "                                      x   x           x              x                 x!!!x                  ",
-   "                             xxx xxx xxx xxx     o o  x!!!!!!!!!!!!!!x                   vx                   ",
-   "                             x xxx x x xxx x          x!!!!!!!!!!!!!!x                                        ",
-   "                             x             x   xxxxxxxxxxxxxxxxxxxxxxx                                        ",
-   "                             xx           xx                                         xxx                      ",
-   "  xxx                         x     x     x                                         x!!!x                xxx  ",
-   "  x x                         x    xxx    x                                          xxx                 x x  ",
-   "  x                           x    xxx    xxxxxxx                        xxxxx                             x  ",
-   "  x                           x           x                              x   x                             x  ",
-   "  x                           xx          x                              x x x                             x  ",
-   "  x                                       x       |xxxx|    |xxxx|     xxx xxx                             x  ",
-   "  x                xxx             o o    x                              x         xxx                     x  ",
-   "  x               xxxxx       xx          x                             xxx       x!!!x          x         x  ",
-   "  x               oxxxo       x    xxx    x                             x x        xxx          xxx        x  ",
-   "  x                xxx        xxxxxxxxxxxxx  x oo x    x oo x    x oo  xx xx                    xxx        x  ",
-   "  x      @          x         x           x!!x    x!!!!x    x!!!!x    xx   xx                    x         x  ",
-   "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxx           xxxxxxxxxxxxxxxxxxxxxxxxxxxxx     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  ",
-   "                                                                                                              ",
-   "                                                                                                              "],
-  ["                                                                                                  xxx x       ",
-   "                                                                                                      x       ",
-   "                                                                                                  xxxxx       ",
-   "                                                                                                  x           ",
-   "                                                                                                  x xxx       ",
-   "                          o                                                                       x x x       ",
-   "                                                                                             o o oxxx x       ",
-   "                   xxx                                                                                x       ",
-   "       !  o  !                                                xxxxx xxxxx xxxxx xxxxx xxxxx xxxxx xxxxx       ",
-   "       x     x                                                x   x x   x x   x x   x x   x x   x x           ",
-   "       x= o  x            x                                   xxx x xxx x xxx x xxx x xxx x xxx x xxxxx       ",
-   "       x     x                                                  x x   x x   x x   x x   x x   x x     x       ",
-   "       !  o  !            o                                  xxxx xxxxx xxxxx xxxxx xxxxx xxxxx xxxxxxx       ",
-   "                                                                                                              ",
-   "          o              xxx                              xx                                                  ",
-   "                                                                                                              ",
-   "                                                                                                              ",
-   "                                                      xx                                                      ",
-   "                   xxx         xxx                                                                            ",
-   "                                                                                                              ",
-   "                          o                                                     x      x                      ",
-   "                                                          xx     xx                                           ",
-   "             xxx         xxx         xxx                                 x                  x                 ",
-   "                                                                                                              ",
-   "                                                                 ||                                           ",
-   "  xxxxxxxxxxx                                                                                                 ",
-   "  x         x o xxxxxxxxx o xxxxxxxxx o xx                                                x                   ",
-   "  x         x   x       x   x       x   x                 ||                  x     x                         ",
-   "  x  @      xxxxx   o   xxxxx   o   xxxxx                                                                     ",
-   "  xxxxxxx                                     xxxxx       xx     xx     xxx                                   ",
-   "        x=                  =                =x   x                     xxx                                   ",
-   "        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   x!!!!!!!!!!!!!!!!!!!!!xxx!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-   "                                                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-   "                                                                                                              "]
-];
+import {
+	simpleLevelPlan,
+	GAME_LEVELS
+} from './levels/level-plans.js';
 
 // Assumes the plan is valid (add validation for production)
 function Level(plan) {
@@ -182,7 +37,7 @@ function Level(plan) {
 	}
 
 	// Find the Player actor
-	this.player = this.actors.filter(function(actor) {
+	this.player = this.actors.filter(function (actor) {
 		return actor.type == 'player';
 	})[0];
 
@@ -192,10 +47,12 @@ function Level(plan) {
 };
 
 // Figure out if the level is finished
-Level.prototype.isFinished = function() { return this.status != null && this.finishDelay < 0 };
+Level.prototype.isFinished = function () {
+	return this.status != null && this.finishDelay < 0
+};
 
 // Figure out the collision area of an actor
-Level.prototype.obstacleAt = function(pos, size) {
+Level.prototype.obstacleAt = function (pos, size) {
 	let xStart = Math.floor(pos.x);
 	let xEnd = Math.ceil(pos.x + size.x);
 	let yStart = Math.floor(pos.y);
@@ -218,7 +75,7 @@ Level.prototype.obstacleAt = function(pos, size) {
 };
 
 // Track what actors overlap a given actor
-Level.prototype.actorAt = function(actor) {
+Level.prototype.actorAt = function (actor) {
 	for (let i = 0; i < this.actors.length; i++) {
 		let other = this.actors[i];
 
@@ -238,7 +95,7 @@ let maxStep = 0.05;
 // Animate the level
 // step will be given in seconds, keys is an object that
 // contains info about the arrow keys the player has pressed.
-Level.prototype.animate = function(step, keys) {
+Level.prototype.animate = function (step, keys) {
 
 	// Used for the delay at the end of a game
 	if (this.status != null)
@@ -246,7 +103,7 @@ Level.prototype.animate = function(step, keys) {
 
 	while (step > 0) {
 		let thisStep = Math.min(step, maxStep);
-		this.actors.forEach(function(actor) {
+		this.actors.forEach(function (actor) {
 			actor.act(thisStep, this, keys);
 		}, this);
 		step -= thisStep;
@@ -254,18 +111,18 @@ Level.prototype.animate = function(step, keys) {
 };
 
 // Handle collisions between actors
-Level.prototype.playerTouched = function(type, actor) {
+Level.prototype.playerTouched = function (type, actor) {
 	// Lava's been touched
 	if (type == 'lava' && this.status == null) {
 		this.status = 'lost';
 		this.finishDelay = 1;
 	} else if (type == 'coin') { // a coin's been touched
 		// Remove the coin that's been collected from actors array
-		this.actors = this.actors.filter(function(other) {
+		this.actors = this.actors.filter(function (other) {
 			return other != actor;
 		});
 		// No more coins = you've won
-		if (!this.actors.some(function(actor) {
+		if (!this.actors.some(function (actor) {
 				return actor.type == 'coin';
 			})) {
 			this.status = 'won';
@@ -287,10 +144,10 @@ function Vector(x, y) {
 	this.x = x;
 	this.y = y;
 }
-Vector.prototype.plus = function(other) {
+Vector.prototype.plus = function (other) {
 	return new Vector(this.x + other.x, this.y + other.y);
 }
-Vector.prototype.times = function(factor) {
+Vector.prototype.times = function (factor) {
 	return new Vector(this.x * factor, this.y * factor);
 }
 
@@ -308,7 +165,7 @@ Player.prototype.type = 'player';
 // a wall shouldn't stop the up and down motion of jumping
 // and a floor shouldn't stop side to side movement
 let playerXSpeed = 7;
-Player.prototype.moveX = function(step, level, keys) {
+Player.prototype.moveX = function (step, level, keys) {
 	this.speed.x = 0;
 	if (keys.left) this.speed.x -= playerXSpeed;
 	if (keys.right) this.speed.x += playerXSpeed;
@@ -324,7 +181,7 @@ Player.prototype.moveX = function(step, level, keys) {
 let gravity = 30;
 let jumpSpeed = 17;
 
-Player.prototype.moveY = function(step, level, keys) {
+Player.prototype.moveY = function (step, level, keys) {
 	this.speed.y += step * gravity;
 	let motion = new Vector(0, this.speed.y * step);
 	let newPos = this.pos.plus(motion);
@@ -339,7 +196,7 @@ Player.prototype.moveY = function(step, level, keys) {
 		this.pos = newPos;
 	}
 };
-Player.prototype.act = function(step, level, keys) {
+Player.prototype.act = function (step, level, keys) {
 	this.moveX(step, level, keys);
 	this.moveY(step, level, keys);
 
@@ -371,7 +228,7 @@ function Lava(pos, ch) {
 }
 Lava.prototype.type = 'lava';
 // Action
-Lava.prototype.act = function(step, level) {
+Lava.prototype.act = function (step, level) {
 	let newPos = this.pos.plus(this.speed.times(step));
 	if (!level.obstacleAt(newPos, this.size))
 		this.pos = newPos;
@@ -391,7 +248,7 @@ Coin.prototype.type = 'coin';
 let wobbleSpeed = 8,
 	wobbleDist = 0.07;
 // Action
-Coin.prototype.act = function(step) {
+Coin.prototype.act = function (step) {
 	this.wobble += step * wobbleSpeed;
 	let wobblePos = Math.sin(this.wobble) * wobbleDist;
 	this.pos = this.basePos.plus(new Vector(0, wobblePos));
@@ -406,7 +263,11 @@ function elt(name, className) {
 }
 
 // Tracking keypresses for player movement
-let arrowCodes = { 37: 'left', 38: 'up', 39: 'right' };
+let arrowCodes = {
+	37: 'left',
+	38: 'up',
+	39: 'right'
+};
 
 //TODO !!BOOKMARK ARROW KEYS
 
@@ -423,7 +284,7 @@ function trackKeys(codes) {
 	addEventListener('keydown', handler);
 	addEventListener('keyup', handler);
 
-	pressed.unregister = function() {
+	pressed.unregister = function () {
 		removeEventListener('keydown', handler);
 		removeEventaListener('keydown', keyDown);
 		removeEventaListener('keyup', keyDown);
@@ -482,7 +343,7 @@ function runLevel(level, Display, andThen) {
 		display.drawFrame(step);
 		if (level.isFinished()) {
 			display.clear();
-			// Remove the watch on the esc key 
+			// Remove the watch on the esc key
 			//removeEventListener('keydown', handleKey);
 			// Unregister the arrow key listeners
 			//arrows.unregister();
@@ -503,17 +364,15 @@ function runGame(plans, Display) {
 
 	function startLevel(n) {
 		livesSpan.textContent = lives;
-		runLevel(new Level(plans[n]), Display, function(status) {
+		runLevel(new Level(plans[n]), Display, function (status) {
 			if (status == 'lost') {
 				lives--;
 				if (lives == 0) {
 					gameStatus.textContent = 'Game Over';
 					console.log('Game over');
-				}
-				else
+				} else
 					startLevel(n);
-			}
-			else if (n < plans.length - 1)
+			} else if (n < plans.length - 1)
 				startLevel(n + 1);
 			else
 				console.log('You win!');
@@ -542,22 +401,22 @@ function DOMDisplay(parent, level) {
 // Set the scale of 1 grid unit
 let scale = 20;
 // Draw the background
-DOMDisplay.prototype.drawBackground = function() {
+DOMDisplay.prototype.drawBackground = function () {
 	let table = elt('table', 'background');
 	table.style.width = this.level.width * scale + 'px';
-	this.level.grid.forEach(function(row) {
+	this.level.grid.forEach(function (row) {
 		let rowElt = table.appendChild(elt('tr'));
 		rowElt.style.height = scale + 'px';
-		row.forEach(function(type) {
+		row.forEach(function (type) {
 			rowElt.appendChild(elt('td', type));
 		});
 	});
 	return table;
 };
 // Draw the actors
-DOMDisplay.prototype.drawActors = function() {
+DOMDisplay.prototype.drawActors = function () {
 	let wrap = elt('div');
-	this.level.actors.forEach(function(actor) {
+	this.level.actors.forEach(function (actor) {
 		let rect = wrap.appendChild(elt('div', 'actor ' + actor.type));
 		rect.style.width = actor.size.x * scale + 'px';
 		rect.style.height = actor.size.y * scale + 'px';
@@ -567,7 +426,7 @@ DOMDisplay.prototype.drawActors = function() {
 	return wrap;
 };
 // Redraw the actors
-DOMDisplay.prototype.drawFrame = function() {
+DOMDisplay.prototype.drawFrame = function () {
 	if (this.actorLayer)
 		this.wrap.removeChild(this.actorLayer);
 	this.actorLayer = this.wrap.appendChild(this.drawActors());
@@ -577,7 +436,7 @@ DOMDisplay.prototype.drawFrame = function() {
 	this.scrollPlayerIntoView();
 };
 // Make sure the player's always on screen
-DOMDisplay.prototype.scrollPlayerIntoView = function() {
+DOMDisplay.prototype.scrollPlayerIntoView = function () {
 	let width = this.wrap.clientWidth;
 	let height = this.wrap.clientHeight;
 	let margin = width / 3;
@@ -603,7 +462,7 @@ DOMDisplay.prototype.scrollPlayerIntoView = function() {
 		this.wrap.scrollTop = center.y + margin - height;
 }
 // Clear the level
-DOMDisplay.prototype.clear = function() {
+DOMDisplay.prototype.clear = function () {
 	this.wrap.parentNode.removeChild(this.wrap);
 };
 
