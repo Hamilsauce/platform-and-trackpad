@@ -74,7 +74,7 @@ app.addEventListener('trackMove', e => {
 
 	}
 	
-	else if (blockCurrentY <= 0) {
+	 if (blockCurrentY <= 0) {
 		block.style.top = `1px`
 		console.log('top limit');
 		return

@@ -23,6 +23,7 @@ html,body{
 	width: 100%;
 	/* padding: 10px; */
 	background: #D3D6B8;
+	overflow: hidden;
 }
 
 #block {
