@@ -7,8 +7,16 @@ const trackpad = document.querySelector('.trackpad')
 const tester = document.querySelector('.test-input')
 const gameEl = document.querySelector('.game')
 
-var arrowCodes = { 37: 'left', 38: 'up', 39: 'right' };
-var codes = new Map(Object.entries({ 'left': 37, 'up': 38, 'right': 39 }))
+var arrowCodes = {
+	37: 'left',
+	38: 'up',
+	39: 'right'
+};
+var codes = new Map(Object.entries({
+	'left': 37,
+	'up': 38,
+	'right': 39
+}))
 
 
 trackpad.addEventListener('touchmove', e => {
@@ -23,7 +31,13 @@ trackpad.addEventListener('touchmove', e => {
 
 
 	const touch = e.touches[0];
-	const evt = new CustomEvent('trackMove', { bubbles: true, detail: { x: touch.clientX, y: touch.clientY } })
+	const evt = new CustomEvent('trackMove', {
+		bubbles: true,
+		detail: {
+			x: touch.clientX,
+			y: touch.clientY
+		}
+	})
 	trackpad.dispatchEvent(evt);
 });
 
@@ -45,7 +59,11 @@ keys.forEach(k => {
 	k.addEventListener('click', e => {
 		//simulate key ptess
 		const eName = `Arrow${k.id[0].toUpperCase()}${k.id.slice(1)}`
-		const evt = new KeyboardEvent('keydown', { bubbles: true, key: eName, keyCode: codes.get(k.id) })
+		const evt = new KeyboardEvent('keydown', {
+			bubbles: true,
+			key: eName,
+			keyCode: codes.get(k.id)
+		})
 		k.dispatchEvent(evt);
 	})
 })
@@ -56,7 +74,10 @@ console.log('block y', parseInt(window.getComputedStyle(block).top));
 app.addEventListener('trackMove', e => {
 	let blockStyles = window.getComputedStyle(block);
 	let stageStyles = window.getComputedStyle(stage);
-	const { x, y } = e.detail
+	const {
+		x,
+		y
+	} = e.detail
 	// console.log(blockStyles);
 
 	let blockHeight = parseInt(blockStyles.height);
@@ -93,11 +114,15 @@ app.addEventListener('trackMove', e => {
 	// 	return
 	// }
 
-	if (x > blockCurrentX + 30) {
-		block.style.left = `${blockCurrentX + (x - blockCurrentX)}px`
-		// console.log(`${blockCurrentX + (x - blockCurrentX)}px`)
-	} else if (x < blockCurrentX + 30) {
-		block.style.left = `${blockCurrentX - (blockCurrentX - x)}px`
+	if (x > blockCurrentX) {
+		block.style.left = `${ blockCurrentX + 10}px`
+		// block.style.left = `${ (blockCurrentX + (x - blockCurrentX)) + blockCurrentX}px`
+		// block.style.left = `${(x - blockCurrentX) + blockCurrentX}px`
+		console.log(`${ (blockCurrentX + (x - blockCurrentX)) +blockCurrentX}px`)
+	} else if (x < blockCurrentX) {
+		block.style.left = `${ blockCurrentX - 10}px`
+
+		// block.style.left = `${blockCurrentX - (blockCurrentX - x)}px`
 		// block.style.left = `${blockCurrentX - (blockCurrentX - x)}px`
 	}
 
@@ -161,9 +186,13 @@ app.addEventListener('keydown', e => {
 block.addEventListener('keydown', e => {});
 stage.addEventListener('keydown', e => {});
 
-// TODO 
+// TODO
 
-var arrowCodes = { 37: 'left', 38: 'up', 39: 'right' };
+var arrowCodes = {
+	37: 'left',
+	38: 'up',
+	39: 'right'
+};
 
 //TODO !!BOOKMARK ARROW KEYS
 
@@ -180,7 +209,7 @@ function trackKeys(codes) {
 	addEventListener('keydown', handler);
 	addEventListener('keyup', handler);
 
-	pressed.unregister = function() {
+	pressed.unregister = function () {
 		removeEventListener('keydown', handler);
 		removeEventaListener('keydown', keyDown);
 		removeEventaListener('keyup', keyDown);
@@ -239,7 +268,7 @@ function runLevel(level, Display, andThen) {
 		display.drawFrame(step);
 		if (level.isFinished()) {
 			display.clear();
-			// Remove the watch on the esc key 
+			// Remove the watch on the esc key
 			//removeEventListener('keydown', handleKey);
 			// Unregister the arrow key listeners
 			//arrows.unregister();
