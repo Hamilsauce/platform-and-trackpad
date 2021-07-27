@@ -1,5 +1,8 @@
 export class Block {
-	constructor(h,w, startPos) {
-		this._x = h;
+	constructor(x, y, h, w) {
+		this._x = x;
+		this._y = y;
+		this._h = h;
+		this._w = w;
 	}
 }

@@ -57,11 +57,12 @@ app.addEventListener('trackMove', e => {
 	let blockStyles = window.getComputedStyle(block);
 	let stageStyles = window.getComputedStyle(stage);
 	const { x, y } = e.detail
+	// console.log(blockStyles);
 
 	let blockHeight = parseInt(blockStyles.height);
 	let blockCurrentX = parseInt(blockStyles.left);
 	let blockCurrentY = parseInt(blockStyles.top);
-	
+
 	let stageHeight = parseInt(stageStyles.height);
 	let stageWidth = parseInt(stageStyles.width);
 	stage.style.width = '360px';
@@ -73,29 +74,50 @@ app.addEventListener('trackMove', e => {
 		return
 
 	}
-	
-	 if (blockCurrentY <= 0) {
+
+	if (blockCurrentY <= 0) {
 		block.style.top = `1px`
 		console.log('top limit');
 		return
 	}
 
-	if ((y - stageHeight) + blockHeight >= stageHeight) {
-		block.style.left = `${x}px`
-		console.log('limit1');
-		return
+	// if ((y - stageHeight) + blockHeight >= stageHeight) {
+	// 	block.style.left = `${x}px`
+	// 	console.log('y limit');
+	// 	return
+	// }
+
+	// if (x + blockHeight >= stageWidth) {
+	// 	console.log('x limit');
+	// 	block.style.top = `${blockCurrentY + (y - stageHeight)}px`
+	// 	return
+	// }
+
+	if (x > blockCurrentX + 30) {
+		block.style.left = `${blockCurrentX + (x - blockCurrentX)}px`
+		// console.log(`${blockCurrentX + (x - blockCurrentX)}px`)
+	} else if (x < blockCurrentX + 30) {
+		block.style.left = `${blockCurrentX - (blockCurrentX - x)}px`
+		// block.style.left = `${blockCurrentX - (blockCurrentX - x)}px`
 	}
 
-	if (x + blockHeight >= stageWidth && !((y - stageHeight) + blockHeight >= stageHeight)) {
-		console.log('limit2');
-		block.style.top = `${y - stageHeight}px`
-		return
-	} else {
-		block.style.left = `${x}px`
-		block.style.top = `${y - stageHeight}px`
+	// if (y > blockCurrentY) {
+	// 	block.style.top = `${blockCurrentY + ((y - stageHeight) - blockCurrentY)}px`
+	// } else if (y < blockCurrentY) {
+	// 	block.style.top = `${blockCurrentY - (blockCurrentY - (y - stageHeight))}px`
+	// }
+
+	// if (y > blockCurrentY) {
+	// 	block.style.top = `${blockCurrentY - (y - stageHeight)}px`
+	// } else {
+	// 	// console.log('y <');
+	// 	block.style.top = `${blockCurrentY + (y - stageHeight)}px`
+	// }
+	// block.style.left = `${blockCurrentX + x}px`
+	// block.style.top = `${blockCurrentY + (y - stageHeight)}px`
 
 
-	}
+
 
 
 
