@@ -18,28 +18,18 @@ var codes = new Map(Object.entries({
 	'right': 39
 }))
 
-
-trackpad.addEventListener('touchmove', e => {
-	let stageStyles = window.getComputedStyle(stage);
-	let blockStyles = window.getComputedStyle(block);
-	let stageHeight = parseInt(stageStyles.height);
-	let blockHeight = parseInt(blockStyles.height);
-	// if (touch.pageY + blockHeight  >= stageHeight) {
-	// 	console.log('limit');
-	// 	return
-	// }
-
-
-	const touch = e.touches[0];
-	const evt = new CustomEvent('trackMove', {
-		bubbles: true,
-		detail: {
-			x: touch.clientX,
-			y: touch.clientY
-		}
+keys.forEach(k => {
+	k.addEventListener('click', e => {
+		//simulate key ptess
+		const eName = `Arrow${k.id[0].toUpperCase()}${k.id.slice(1)}`
+		const evt = new KeyboardEvent('keydown', {
+			bubbles: true,
+			key: eName,
+			keyCode: codes.get(k.id)
+		})
+		k.dispatchEvent(evt);
 	})
-	trackpad.dispatchEvent(evt);
-});
+})
 
 trackpad.addEventListener('dblclick', e => {
 	let blockStyles = window.getComputedStyle(block);
@@ -55,30 +45,66 @@ trackpad.addEventListener('dblclick', e => {
 	block.style.width = `${newWidth}px`
 });
 
-keys.forEach(k => {
-	k.addEventListener('click', e => {
-		//simulate key ptess
-		const eName = `Arrow${k.id[0].toUpperCase()}${k.id.slice(1)}`
-		const evt = new KeyboardEvent('keydown', {
-			bubbles: true,
-			key: eName,
-			keyCode: codes.get(k.id)
-		})
-		k.dispatchEvent(evt);
-	})
-})
 
-document.addEventListener('keydown', e => {});
-console.log('block y', parseInt(window.getComputedStyle(block).top));
+
+
+
+let startPos;
+trackpad.addEventListener('touchstart', e => {
+	const touches = e.touches;
+	if (touches && touches.length === 1) {
+		const touch = touches[0]
+
+		console.log('touchstart', e);
+
+
+
+
+		startPos = {
+			x: touch.clientX,
+			y: touch.clientY
+		}
+
+		// const evt = new CustomEvent('trackStart', {
+		// 	bubbles: true,
+		// 	detail: {
+		// 		x: touch.clientX,
+		// 		y: touch.clientY
+		// 	}
+		// })
+		// trackpad.dispatchEvent(evt);
+	}
+});
+
+trackpad.addEventListener('touchmove', e => {
+	let stageStyles = window.getComputedStyle(stage);
+	let blockStyles = window.getComputedStyle(block);
+	let stageHeight = parseInt(stageStyles.height);
+	let blockHeight = parseInt(blockStyles.height);
+
+	const touch = e.touches[0];
+	const evt = new CustomEvent('trackMove', {
+		bubbles: true,
+		detail: {
+			newX: touch.clientX,
+			newY: touch.clientY
+		}
+	})
+
+	trackpad.dispatchEvent(evt);
+});
+
+// document.addEventListener('keydown', e => {});
+// console.log('block y', parseInt(window.getComputedStyle(block).top));
 //app touch listener
 app.addEventListener('trackMove', e => {
 	let blockStyles = window.getComputedStyle(block);
 	let stageStyles = window.getComputedStyle(stage);
 	const {
-		x,
-		y
+		newX,
+		newY
 	} = e.detail
-	// console.log(blockStyles);
+
 
 	let blockHeight = parseInt(blockStyles.height);
 	let blockCurrentX = parseInt(blockStyles.left);
@@ -91,9 +117,8 @@ app.addEventListener('trackMove', e => {
 	if (blockCurrentX <= 0) {
 		block.style.left = `1px`
 		console.log('left limit');
-		// block.style.top = `1px`
+		block.style.top = `1px`
 		return
-
 	}
 
 	if (blockCurrentY <= 0) {
@@ -102,29 +127,51 @@ app.addEventListener('trackMove', e => {
 		return
 	}
 
-	// if ((y - stageHeight) + blockHeight >= stageHeight) {
-	// 	block.style.left = `${x}px`
-	// 	console.log('y limit');
-	// 	return
-	// }
-
-	// if (x + blockHeight >= stageWidth) {
-	// 	console.log('x limit');
-	// 	block.style.top = `${blockCurrentY + (y - stageHeight)}px`
-	// 	return
-	// }
-
-	if (x > blockCurrentX) {
-		block.style.left = `${ blockCurrentX + 10}px`
-		// block.style.left = `${ (blockCurrentX + (x - blockCurrentX)) + blockCurrentX}px`
-		// block.style.left = `${(x - blockCurrentX) + blockCurrentX}px`
-		console.log(`${ (blockCurrentX + (x - blockCurrentX)) +blockCurrentX}px`)
-	} else if (x < blockCurrentX) {
-		block.style.left = `${ blockCurrentX - 10}px`
-
-		// block.style.left = `${blockCurrentX - (blockCurrentX - x)}px`
-		// block.style.left = `${blockCurrentX - (blockCurrentX - x)}px`
+	if (blockCurrentY + blockHeight >= stageHeight) {
+		// block.style.left = `${stageWidth - (blockHeight - 1)}px`
+		block.style.top = `${(stageHeight - blockHeight) - 1}px`
+		console.log('y limit');
+		return
 	}
+
+	if (blockCurrentX + blockHeight >= stageWidth) {
+		console.log('blockCurrentX limit');
+		block.style.left = `${(stageWidth -  (blockHeight + 1))}px`
+		// block.style.left = `${stageWidth - (blockHeight - 1)}px`
+		return
+	}
+
+	// console.log(e);
+
+	if (startPos.x < newX) {
+		block.style.left = `${ blockCurrentX + 15}px`
+	} else if (startPos.x > newX) {
+		block.style.left = `${ blockCurrentX - 15 }px`
+	}
+	if (startPos.y < newY) {
+		block.style.top = `${ blockCurrentY + 15}px`
+	} else if (startPos.y > newY) {
+		block.style.top = `${ blockCurrentY - 15 }px`
+	}
+
+	startPos = {
+		x: newX,
+		y: newY
+	}
+
+
+
+	// if ((x - blockCurrentX) > blockCurrentX) {
+	// 	block.style.left = `${ blockCurrentX + 10}px`
+	// block.style.left = `${ (blockCurrentX + (x - blockCurrentX)) + blockCurrentX}px`
+	// block.style.left = `${(x - blockCurrentX) + blockCurrentX}px`
+	// console.log(`${ (blockCurrentX + (x - blockCurrentX)) +blockCurrentX}px`)
+	// } else if (x < blockCurrentX) {
+	// 	block.style.left = `${ blockCurrentX - 10}px`
+
+	// block.style.left = `${blockCurrentX - (blockCurrentX - x)}px`
+	// block.style.left = `${blockCurrentX - (blockCurrentX - x)}px`
+	// }
 
 	// if (y > blockCurrentY) {
 	// 	block.style.top = `${blockCurrentY + ((y - stageHeight) - blockCurrentY)}px`

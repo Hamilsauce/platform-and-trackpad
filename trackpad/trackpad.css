@@ -25,7 +25,7 @@ body {
 	width: 100%;
 	padding: 10px;
 	background: #D3D6B8;
-	/* overflow: hidden; */
+	overflow: hidden;
 }
 
 #block {
@@ -34,12 +34,13 @@ body {
 	left: 10;
 	width: 50px;
 	height: 50px;
+	margin: 1px;
 	border: 1px solid white;
 	border-radius: 50%;
 	background: #5A899C;
 	box-shadow: 0 0 5px 1px #3A3B42;
-	/* transition: 0.05s ease-out; */
-	z-index: 590;
+	transition: 0.01s;
+	/* z-index: 590; */
 }
 
 .trackpad {
