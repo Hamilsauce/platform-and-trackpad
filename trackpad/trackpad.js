@@ -86,8 +86,8 @@ trackpad.addEventListener('touchmove', e => {
 	const evt = new CustomEvent('trackMove', {
 		bubbles: true,
 		detail: {
-			newX: touch.clientX,
-			newY: touch.clientY
+			newX: touch.pageX,
+			newY: touch.pageY
 		}
 	})
 
@@ -136,7 +136,7 @@ app.addEventListener('trackMove', e => {
 
 	if (blockCurrentX + blockHeight >= stageWidth) {
 		console.log('blockCurrentX limit');
-		block.style.left = `${(stageWidth -  (blockHeight + 1))}px`
+		block.style.left = `${(stageWidth - blockHeight) - 1}px`
 		// block.style.left = `${stageWidth - (blockHeight - 1)}px`
 		return
 	}
@@ -144,14 +144,14 @@ app.addEventListener('trackMove', e => {
 	// console.log(e);
 
 	if (startPos.x < newX) {
-		block.style.left = `${ blockCurrentX + 15}px`
+		block.style.left = `${blockCurrentX + 10}px`
 	} else if (startPos.x > newX) {
-		block.style.left = `${ blockCurrentX - 15 }px`
+		block.style.left = `${ blockCurrentX - 10 }px`
 	}
 	if (startPos.y < newY) {
-		block.style.top = `${ blockCurrentY + 15}px`
+		block.style.top = `${ blockCurrentY + 10}px`
 	} else if (startPos.y > newY) {
-		block.style.top = `${ blockCurrentY - 15 }px`
+		block.style.top = `${ blockCurrentY - 10}px`
 	}
 
 	startPos = {
@@ -256,7 +256,7 @@ function trackKeys(codes) {
 	addEventListener('keydown', handler);
 	addEventListener('keyup', handler);
 
-	pressed.unregister = function () {
+	pressed.unregister = function() {
 		removeEventListener('keydown', handler);
 		removeEventaListener('keydown', keyDown);
 		removeEventaListener('keyup', keyDown);
