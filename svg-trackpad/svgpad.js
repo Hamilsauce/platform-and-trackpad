@@ -2,7 +2,8 @@ import {
   toTrackPoint,
   toScenePoint,
   addVectors
-} from './lib.js';
+} from '../svg-trackpad/lib.js';
+
 // import { Crosshair } from './entities/crosshair.js'
 import { Scene } from './entities/scene.js'
 
@@ -45,11 +46,11 @@ function handleGrabPress(e) {
 const onGrabPressed = (e) => {
   if (e.target.id === 'grab-button' || e.target.id === 'grab-button-text') {
     if (grabButtonText.textContent.trim() === 'GRAB') {
-      scene.dispatchEvent(new CustomEvent('grabAction', {bubbles: true, detail: {action: 'release'}}))
+      scene.dispatchEvent(new CustomEvent('grabAction', { bubbles: true, detail: { action: 'release' } }))
       grabButtonText.textContent = 'DROP'
     } else {
       // scene.dispatchEvent(new CustomEvent('drop'))
-      scene.dispatchEvent(new CustomEvent('grabAction', {bubbles: true, detail: {action: 'capture'}}))
+      scene.dispatchEvent(new CustomEvent('grabAction', { bubbles: true, detail: { action: 'capture' } }))
       grabButtonText.textContent = 'GRAB'
     }
   }
@@ -80,14 +81,14 @@ const onTrackpadDrag = (e) => {
   //   isMoving && (Math.abs(Math.abs(point.x) - Math.abs(tp.x)) > 0.5 ||
   //     Math.abs(Math.abs(point.y) - Math.abs(tp.y)) > 0.5)
   // ) {
-    const trackpoint = { x: Math.round(tp.x % 5), y: Math.round(tp.y) }
+  const trackpoint = { x: Math.round(tp.x % 5), y: Math.round(tp.y) }
 
 
-    const scenepoint = toScenePoint(trackpoint)
-    coordsDisplay.textContent = `pad: [ ${scenepoint.x} , ${scenepoint.y} ]`
-    // coordsDisplay.textContent = `deltas: [ ${deltaX} , ${deltaY} ]`
+  const scenepoint = toScenePoint(trackpoint)
+  coordsDisplay.textContent = `pad: [ ${scenepoint.x} , ${scenepoint.y} ]`
+  // coordsDisplay.textContent = `deltas: [ ${deltaX} , ${deltaY} ]`
   pointerMarker.setAttribute('transform', `translate(${scenepoint.x},${scenepoint.y})`)
-    // coordsDisplay2.textContent = `point: [ ${trackpoint.x} , ${trackpoint.y} ]`;
+  // coordsDisplay2.textContent = `point: [ ${trackpoint.x} , ${trackpoint.y} ]`;
   // }
 };
 
