@@ -9,7 +9,7 @@ const gameEl = document.querySelector('.game')
 var arrowCodes = { 37: 'left', 38: 'up', 39: 'right' };
 var codes = new Map(Object.entries({ 'left': 37, 'up': 38, 'right': 39 }))
 keys.forEach(k => {
-	k.addEventListener('click', e => {
+	k.addEventListener('pointerdown', e => {
 
 		//simulate key ptess
 		const eName = `Arrow${k.id[0].toUpperCase()}${k.id.slice(1)}`
@@ -37,8 +37,8 @@ app.addEventListener('keydown', e => {
 		block.style.top = `${startTop + 100}px`
 	}
 });
-block.addEventListener('keydown', e => {});
-stage.addEventListener('keydown', e => {});
+// block.addEventListener('keydown', e => {});
+// stage.addEventListener('keydown', e => {});
 
 // other
 
